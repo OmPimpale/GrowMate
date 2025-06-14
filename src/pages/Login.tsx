@@ -52,7 +52,7 @@ const Login: React.FC = () => {
           <h1 className="text-3xl font-bold font-poppins text-deep-purple mb-2">
             Welcome Back
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-inter">
             Continue your habit-building journey
           </p>
         </div>
@@ -90,7 +90,7 @@ const Login: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition-colors"
+                className="absolute right-3 top-3 text-gray-400 hover:text-gray-600 transition-colors text-inter"
               >
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
@@ -110,7 +110,7 @@ const Login: React.FC = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-deep-purple text-white py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+            className="w-full bg-deep-purple text-white py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-inter"
           >
             {loading ? (
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
@@ -120,16 +120,16 @@ const Login: React.FC = () => {
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-inter">
             Don't have an account?{' '}
-            <Link to="/signup" className="text-deep-purple hover:text-purple-800 font-medium">
+            <Link to="/signup" className="text-deep-purple hover:text-purple-800 font-medium text-inter">
               Sign up
             </Link>
           </p>
         </div>
 
         <div className="mt-4 text-center">
-          <Link to="/" className="text-sm text-gray-500 hover:text-gray-700">
+          <Link to="/" className="text-sm text-gray-500 hover:text-gray-700 text-inter">
             ← Back to Home
           </Link>
         </div>

@@ -93,7 +93,7 @@ const Progress: React.FC = () => {
           <h1 className="text-4xl font-bold font-poppins text-gray-800 dark:text-white mb-2">
             Progress Analytics
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-lg text-gray-600 dark:text-gray-300 text-inter">
             Track your habit completion trends and insights
           </p>
         </motion.div>
@@ -107,7 +107,7 @@ const Progress: React.FC = () => {
         >
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-inter">
                 Habit
               </label>
               <select
@@ -124,7 +124,7 @@ const Progress: React.FC = () => {
               </select>
             </div>
             <div className="flex-1">
-              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-inter">
                 Time Range
               </label>
               <select
@@ -150,10 +150,10 @@ const Progress: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-inter">
                   Total Habits
                 </p>
-                <p className="text-3xl font-bold text-gray-800 dark:text-white">
+                <p className="text-3xl font-bold text-gray-800 dark:text-white text-inter">
                   {overallStats.totalHabits}
                 </p>
               </div>
@@ -166,10 +166,10 @@ const Progress: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-inter">
                   Active Streaks
                 </p>
-                <p className="text-3xl font-bold text-gray-800 dark:text-white">
+                <p className="text-3xl font-bold text-gray-800 dark:text-white text-inter">
                   {overallStats.activeStreaks}
                 </p>
               </div>
@@ -182,10 +182,10 @@ const Progress: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-inter">
                   Longest Streak
                 </p>
-                <p className="text-3xl font-bold text-gray-800 dark:text-white">
+                <p className="text-3xl font-bold text-gray-800 dark:text-white text-inter">
                   {overallStats.longestStreak}
                 </p>
               </div>
@@ -198,10 +198,10 @@ const Progress: React.FC = () => {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-inter">
                   Avg. Completion
                 </p>
-                <p className="text-3xl font-bold text-gray-800 dark:text-white">
+                <p className="text-3xl font-bold text-gray-800 dark:text-white text-inter">
                   {overallStats.averageCompletion}%
                 </p>
               </div>
@@ -321,16 +321,16 @@ const Progress: React.FC = () => {
                     <h4 className="font-medium text-gray-800 dark:text-white">
                       {stat.title}
                     </h4>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                       {stat.streak} day streak
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-lg font-semibold text-gray-800 dark:text-white">
+                  <p className="text-lg font-semibold text-gray-800 dark:text-white text-inter">
                     {stat.completionRate}%
                   </p>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                     completion rate
                   </p>
                 </div>

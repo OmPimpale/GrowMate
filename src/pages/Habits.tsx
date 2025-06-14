@@ -45,13 +45,13 @@ const Habits: React.FC = () => {
               <h1 className="text-4xl font-bold font-poppins text-gray-800 dark:text-white mb-2">
                 My Habits
               </h1>
-              <p className="text-lg text-gray-600 dark:text-gray-300">
+              <p className="text-lg text-gray-600 dark:text-gray-300 text-inter">
                 Manage and track your daily habits
               </p>
             </div>
             <button
               onClick={() => setIsModalOpen(true)}
-              className="bg-deep-purple text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium flex items-center"
+              className="bg-deep-purple text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium flex items-center text-inter"
             >
               <Plus className="w-5 h-5 mr-2" />
               Add Habit
@@ -68,15 +68,15 @@ const Habits: React.FC = () => {
           >
             <div className="bg-white dark:bg-gray-800 rounded-xl p-12 shadow-lg max-w-md mx-auto">
               <Calendar className="w-20 h-20 text-gray-300 mx-auto mb-6" />
-              <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-4">
+              <h2 className="text-2xl font-semibold text-gray-600 dark:text-gray-300 mb-4 font-poppins">
                 No habits yet
               </h2>
-              <p className="text-gray-500 dark:text-gray-400 mb-6">
+              <p className="text-gray-500 dark:text-gray-400 mb-6 text-inter">
                 Start building better habits today! Click the button below to create your first habit.
               </p>
               <button
                 onClick={() => setIsModalOpen(true)}
-                className="bg-deep-purple text-white px-8 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium"
+                className="bg-deep-purple text-white px-8 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium text-inter"
               >
                 Create Your First Habit
               </button>
@@ -117,28 +117,28 @@ const Habits: React.FC = () => {
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2">
+                  <h3 className="text-xl font-semibold text-gray-800 dark:text-white mb-2 font-poppins">
                     {habit.title}
                   </h3>
-                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm">
+                  <p className="text-gray-600 dark:text-gray-300 mb-4 text-sm text-inter">
                     {habit.description}
                   </p>
 
                   <div className="flex items-center justify-between mb-4">
-                    <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full">
+                    <span className="text-sm text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-3 py-1 rounded-full text-inter">
                       {habit.frequency}
                     </span>
                     {streak > 0 && (
                       <div className="flex items-center text-orange-500">
                         <Flame className="w-4 h-4 mr-1" />
-                        <span className="text-sm font-medium">{streak} days</span>
+                        <span className="text-sm font-medium text-inter">{streak} days</span>
                       </div>
                     )}
                   </div>
 
                   <button
                     onClick={() => handleToggleComplete(habit.id)}
-                    className={`w-full py-3 rounded-lg font-medium transition-all flex items-center justify-center ${
+                    className={`w-full py-3 rounded-lg font-medium transition-all flex items-center justify-center text-inter ${
                       isCompleted
                         ? 'bg-emerald-500 text-white hover:bg-emerald-600'
                         : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'

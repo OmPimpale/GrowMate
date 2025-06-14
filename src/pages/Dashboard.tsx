@@ -63,7 +63,7 @@ const Dashboard: React.FC = () => {
           <h1 className="text-4xl font-bold font-poppins text-gray-800 dark:text-white mb-2">
             Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.name}!
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-lg text-gray-600 dark:text-gray-300 text-inter">
             {todaysMessage}
           </p>
         </motion.div>
@@ -80,10 +80,10 @@ const Dashboard: React.FC = () => {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  <p className="text-sm font-medium text-gray-500 dark:text-gray-400 text-inter">
                     {stat.label}
                   </p>
-                  <p className="text-3xl font-bold text-gray-800 dark:text-white mt-1">
+                  <p className="text-3xl font-bold text-gray-800 dark:text-white mt-1 text-inter">
                     {stat.value}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
             </h2>
             <Link
               to="/habits"
-              className="bg-deep-purple text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition-colors font-medium flex items-center"
+              className="bg-deep-purple text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition-colors font-medium flex items-center text-inter"
             >
               <Plus className="w-4 h-4 mr-2" />
               Add Habit
@@ -118,15 +118,15 @@ const Dashboard: React.FC = () => {
           {habits.length === 0 ? (
             <div className="text-center py-12">
               <Target className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2">
+              <h3 className="text-xl font-semibold text-gray-600 dark:text-gray-300 mb-2 font-poppins">
                 No habits yet
               </h3>
-              <p className="text-gray-500 dark:text-gray-400 mb-4">
+              <p className="text-gray-500 dark:text-gray-400 mb-4 text-inter">
                 Start building better habits today!
               </p>
               <Link
                 to="/habits"
-                className="bg-deep-purple text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium"
+                className="bg-deep-purple text-white px-6 py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium text-inter"
               >
                 Create Your First Habit
               </Link>
@@ -148,10 +148,10 @@ const Dashboard: React.FC = () => {
                         style={{ backgroundColor: habit.color }}
                       />
                       <div>
-                        <h3 className="font-medium text-gray-800 dark:text-white">
+                        <h3 className="font-medium text-gray-800 dark:text-white font-poppins">
                           {habit.title}
                         </h3>
-                        <p className="text-sm text-gray-500 dark:text-gray-400">
+                        <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                           {habit.frequency} • {streak} day streak
                         </p>
                       </div>
@@ -160,7 +160,7 @@ const Dashboard: React.FC = () => {
                       {streak > 0 && (
                         <div className="flex items-center mr-4">
                           <Flame className="w-4 h-4 text-orange-500 mr-1" />
-                          <span className="text-sm font-medium text-orange-500">
+                          <span className="text-sm font-medium text-orange-500 text-inter">
                             {streak}
                           </span>
                         </div>
@@ -183,7 +183,7 @@ const Dashboard: React.FC = () => {
               {habits.length > 5 && (
                 <Link
                   to="/habits"
-                  className="block text-center text-deep-purple hover:text-purple-800 font-medium mt-4"
+                  className="block text-center text-deep-purple hover:text-purple-800 font-medium mt-4 text-inter"
                 >
                   View all {habits.length} habits →
                 </Link>
@@ -204,8 +204,8 @@ const Dashboard: React.FC = () => {
             className="bg-gradient-to-r from-deep-purple to-purple-600 text-white p-6 rounded-xl hover:from-purple-600 hover:to-purple-700 transition-all transform hover:scale-105"
           >
             <Target className="w-8 h-8 mb-3" />
-            <h3 className="text-lg font-semibold mb-2">Manage Habits</h3>
-            <p className="text-purple-100 text-sm">
+            <h3 className="text-lg font-semibold mb-2 font-poppins">Manage Habits</h3>
+            <p className="text-purple-100 text-sm text-inter">
               Create, edit, and organize your habits
             </p>
           </Link>
@@ -215,8 +215,8 @@ const Dashboard: React.FC = () => {
             className="bg-gradient-to-r from-teal to-blue-500 text-white p-6 rounded-xl hover:from-blue-500 hover:to-blue-600 transition-all transform hover:scale-105"
           >
             <TrendingUp className="w-8 h-8 mb-3" />
-            <h3 className="text-lg font-semibold mb-2">View Progress</h3>
-            <p className="text-blue-100 text-sm">
+            <h3 className="text-lg font-semibold mb-2 font-poppins">View Progress</h3>
+            <p className="text-blue-100 text-sm text-inter">
               Track your progress with visual charts
             </p>
           </Link>
@@ -226,8 +226,8 @@ const Dashboard: React.FC = () => {
             className="bg-gradient-to-r from-emerald-500 to-green-500 text-white p-6 rounded-xl hover:from-green-500 hover:to-green-600 transition-all transform hover:scale-105"
           >
             <Calendar className="w-8 h-8 mb-3" />
-            <h3 className="text-lg font-semibold mb-2">Settings</h3>
-            <p className="text-green-100 text-sm">
+            <h3 className="text-lg font-semibold mb-2 font-poppins">Settings</h3>
+            <p className="text-green-100 text-sm text-inter">
               Customize your experience
             </p>
           </Link>

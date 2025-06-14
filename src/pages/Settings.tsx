@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { User, Bell, Moon, Sun, Trash2, Download, Shield } from 'lucide-react';
+import { User, Moon, Sun, Trash2, Download, Shield } from 'lucide-react';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -48,7 +48,7 @@ const Settings: React.FC = () => {
           <h1 className="text-4xl font-bold font-poppins text-gray-800 dark:text-white mb-2">
             Settings
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-lg text-gray-600 dark:text-gray-300 text-inter">
             Customize your GrowMate experience
           </p>
         </motion.div>
@@ -71,7 +71,7 @@ const Settings: React.FC = () => {
             </div>
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-inter">
                   Name
                 </label>
                 <input
@@ -82,7 +82,7 @@ const Settings: React.FC = () => {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 text-inter">
                   Email
                 </label>
                 <input
@@ -119,7 +119,7 @@ const Settings: React.FC = () => {
                 <h3 className="font-medium text-gray-800 dark:text-white">
                   Dark Mode
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                   Switch between light and dark themes
                 </p>
               </div>
@@ -159,7 +159,7 @@ const Settings: React.FC = () => {
                   <h3 className="font-medium text-gray-800 dark:text-white">
                     Export Data
                   </h3>
-                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                  <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                     Download your habits and progress data
                   </p>
                 </div>
@@ -167,7 +167,7 @@ const Settings: React.FC = () => {
                   onClick={exportData}
                   className="flex items-center px-4 py-2 bg-emerald-500 text-white rounded-lg hover:bg-emerald-600 transition-colors"
                 >
-                  <Download className="w-4 h-4 mr-2" />
+                  <Download className="w-4 h-4 mr-2 text-inter" />
                   Export
                 </button>
               </div>
@@ -176,13 +176,13 @@ const Settings: React.FC = () => {
                   <h3 className="font-medium text-red-800 dark:text-red-200">
                     Clear All Data
                   </h3>
-                  <p className="text-sm text-red-600 dark:text-red-400">
+                  <p className="text-sm text-red-600 dark:text-red-400 text-inter">
                     Permanently delete all your habits and progress data
                   </p>
                 </div>
                 <button
                   onClick={clearAllData}
-                  className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+                  className="flex items-center px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-inter"
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
                   Clear Data
@@ -203,26 +203,26 @@ const Settings: React.FC = () => {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="text-center">
-                <p className="text-3xl font-bold text-purple-600 dark:text-purple-400">
+                <p className="text-3xl font-bold text-purple-600 dark:text-purple-400 text-inter">
                   {habits.length}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                   Total Habits
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400">
+                <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 text-inter">
                   {habitLogs.filter(log => log.completed).length}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                   Completed Sessions
                 </p>
               </div>
               <div className="text-center">
-                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+                <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 text-inter">
                   {new Set(habitLogs.map(log => log.date)).size}
                 </p>
-                <p className="text-sm text-gray-500 dark:text-gray-400">
+                <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                   Active Days
                 </p>
               </div>

@@ -1,4 +1,4 @@
-import React from 'react';
+// import Reactlogin from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider } from './contexts/AuthContext';
@@ -11,6 +11,7 @@ import Habits from './pages/Habits';
 import Progress from './pages/Progress';
 import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
+import AboutUs from './pages/AboutUs';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
                 <Route path="/" element={<Landing />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path='/about-us' element={<AboutUs />} />
                 <Route path="/dashboard" element={
                   <ProtectedRoute>
                     <Dashboard />
