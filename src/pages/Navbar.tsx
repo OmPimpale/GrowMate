@@ -1,21 +1,30 @@
-import { motion } from "framer-motion"
-import { Menu, Shrub } from "lucide-react";
+import { motion } from "framer-motion";
+import { Menu, X, Shrub } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
-    const [toggleBtn, setToggleBtn] = useState(false);
-    const size = 768;
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
 
     useEffect(() => {
         const handleResize = () => {
             const width = window.innerWidth;
-            setToggleBtn(width > size);
+            setIsDesktop(width >= 1024);
+            if (width >= 1024) {
+                setIsMenuOpen(false);
+            }
         };
-        handleResize();
+
         window.addEventListener('resize', handleResize);
+        handleResize();
+
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    const closeMenu = () => {
+        setIsMenuOpen(false);
+    };
 
     const navLinks = [
         {
@@ -33,38 +42,28 @@ const Navbar = () => {
             name: "Login",
             link: "login",
         },
-    ]
+    ];
 
     return (
         <>
             <motion.header
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-auto p-6 flex justify-between items-center bg-white fixed top-0 left-0 right-0 w-full z-50"
+                className="mx-auto p-6 py-5 flex justify-between items-center bg-white/60 backdrop-blur-xl fixed top-0 left-0 right-0 w-full z-50 border-b"
             >
                 <Link to="/" className="flex items-center text-3xl font-bold font-poppins text-deep-purple">
                     GrowMate
                     <Shrub className="ml-[2px] text-green-500 rotate-[15deg]" size={34} />
                 </Link>
-                <Menu
-                    className={`cursor-pointer text-deep-purple p-2 rounded-full hover:bg-purple-200 duration-300 ${toggleBtn ? "hidden" : "inline-block"
-                        }`}
-                    size={38}
-                    onClick={() => {
-                        if (toggleBtn) {
-                            setToggleBtn(false);
-                        } else {
-                            setToggleBtn(true);
-                        }
-                    }}
-                />
-                {toggleBtn ? (
-                    <div className="space-x-10">
+
+                {isDesktop && (
+                    <div className="flex items-center space-x-10">
                         {navLinks.map((data) =>
                             <Link
                                 to={data.link}
-                                className="text-deep-purple hover:text-teal font-medium transition-colors duration-300 text-inter"
-                                key={data.id}>
+                                className="text-deep-purple hover:text-teal font-medium transition-colors duration-300 font-inter"
+                                key={data.id}
+                            >
                                 {data.name}
                             </Link>
                         )}
@@ -75,25 +74,57 @@ const Navbar = () => {
                             Get Started
                         </Link>
                     </div>
-                ) : (
-                    <div className="space-x-4 hidden">
-                        <Link
-                            to="/login"
-                            className="text-deep-purple hover:text-purple-800 font-medium transition-colors text-inter"
-                        >
-                            Login
-                        </Link>
+                )}
+
+                {!isDesktop && (
+                    <motion.button
+                        exit={{
+                            opacity:0
+                        }}
+                        transition={{
+                            duration:1,
+                            ease:"linear"
+                        }}
+                        className="cursor-pointer text-deep-purple p-2 rounded-full hover:bg-purple-200 duration-300"
+                        onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+                    >
+                        {isMenuOpen ? <X size={30} /> : <Menu size={30} />}
+                    </motion.button>
+                )}
+            </motion.header>
+
+            {!isDesktop && isMenuOpen && (
+                <motion.nav
+                    initial={{ opacity: 0, y: -40 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -40, }}
+                    transition={{ duration: 0.4 }}
+                    className="fixed top-[80px] sm:top-[90px] md:top-[100px] left-0 right-0 bg-white shadow-lg py-4 z-40 border-t-2"
+                >
+                    <div className="flex flex-col items-center space-y-4">
+                        {navLinks.map((data) =>
+                            <Link
+                                to={data.link}
+                                className="text-deep-purple hover:text-teal font-medium transition-colors duration-300 text-inter text-lg block w-full text-center py-2"
+                                key={data.id}
+                                onClick={closeMenu}
+                            >
+                                {data.name}
+                            </Link>
+                        )}
                         <Link
                             to="/signup"
-                            className="bg-deep-purple text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-colors font-medium duration-300 text-inter"
+                            className="bg-deep-purple text-white px-8 py-3 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter text-lg block w-fit text-center mt-4"
+                            onClick={closeMenu}
                         >
                             Get Started
                         </Link>
                     </div>
-                )}
-            </motion.header>
+                </motion.nav>
+            )}
         </>
-    )
-}
+    );
+};
 
 export default Navbar;

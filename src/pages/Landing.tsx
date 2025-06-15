@@ -34,13 +34,13 @@ const Landing: React.FC = () => {
           <div className="py-5">
             <Link
               to="/signup"
-              className="bg-deep-purple text-white px-8 py-4 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-all transform hover:scale-105 font-medium text-lg inline-block duration-300 font-inter md:mr-10"
+              className="bg-deep-purple text-white px-8 py-4 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-all transform hover:scale-105 font-medium text-lg inline-block duration-300 font-inter md:mr-10 mx-2"
             >
               Start Your Journey
             </Link>
             <Link
               to="/login"
-              className="bg-white text-deep-purple px-8 py-4 rounded-tr-xl rounded-bl-xl hover:bg-gray-100 transition-colors font-medium text-lg inline-block border border-deep-purple font-inter mt-5 md:mt-0"
+              className="bg-white text-deep-purple px-8 py-4 rounded-tr-xl rounded-bl-xl hover:bg-gray-100 transition-colors font-medium text-lg inline-block border border-deep-purple font-inter mt-5 md:mt-0 mx-2"
             >
               Sign In
             </Link>
