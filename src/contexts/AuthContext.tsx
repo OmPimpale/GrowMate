@@ -4,6 +4,7 @@ import { authAPI } from '../services/api';
 interface User {
   id: string;
   name: string;
+  image?: string;
   email: string;
 }
 
@@ -13,6 +14,7 @@ interface AuthContextType {
   signup: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
+  updateUser: (userData: Partial<User>) => void;
   loading: boolean;
 }
 
@@ -93,6 +95,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
+  const updateUser = (userData: Partial<User>) => {
+    setUser(prevUser => {
+      if (prevUser) {
+        const updatedUser = { ...prevUser, ...userData };
+        localStorage.setItem('user', JSON.stringify(updatedUser)); // Update local storage
+        return updatedUser;
+      }
+      return null;
+    });
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -100,7 +113,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       signup,
       logout,
       isAuthenticated: !!user,
-      loading
+      loading,
+      updateUser
     }}>
       {children}
     </AuthContext.Provider>

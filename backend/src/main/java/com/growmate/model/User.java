@@ -34,6 +34,8 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    private String image;
+
     @NotBlank(message = "Password is required")
     @Size(min = 6, message = "Password must be at least 6 characters")
     @JsonIgnore

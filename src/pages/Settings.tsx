@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { User, Moon, Sun, Trash2, Download, Shield, SquarePen, Image, X, Camera } from 'lucide-react';
+import { User, Moon, Sun, Trash2, Download, Shield, SquarePen, X, Camera } from 'lucide-react';
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
@@ -13,23 +13,72 @@ const Settings: React.FC = () => {
   const { habits, habitLogs } = useHabits();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
-  const [image, setImage] = useState(user?.image || '');
+  const [image, setImage] = useState(user?.image || ''); // State for image preview (Data URL)
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined); // State for the actual image File object
+
+  // Update state when user data changes (e.g., after updateUser)
+  useEffect(() => {
+    if (user) {
+      setName(user.name || '');
+      setImage(user.image || '');
+      // When user data changes, reset imageFile as the new user data is loaded
+      setImageFile(undefined);
+    }
+  }, [user]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setImage(reader.result as string);
+        setImage(reader.result as string); // For image preview
       };
       reader.readAsDataURL(file);
+      setImageFile(file); // Store the File object for upload
     }
   };
 
-  const handleSave = () => {
-    updateUser({ name, image });
-    setIsEditing(false);
+  const handleSave = async () => {
+    try {
+      const userDataToUpdate: { name?: string; image?: string; imageFile?: File } = {};
+
+      // Only include name if it has changed
+      if (name !== user?.name) {
+          userDataToUpdate.name = name;
+      }
+
+      // Include imageFile if a new one is selected
+      if (imageFile) {
+          userDataToUpdate.imageFile = imageFile;
+      } else if (image && image !== user?.image) {
+          // If no new file, but the image preview changed (e.g., if user cleared the image input)
+          // You might need logic here to indicate to the backend to remove the image
+          // For now, we'll assume if imageFile is not present, and image is different,
+          // it means the user might have cleared the input or a similar scenario.
+          // Your backend should handle this appropriately (e.g., if image is empty string, remove image)
+          userDataToUpdate.image = image;
+      } else if (!image && user?.image) {
+           // Case where user explicitly cleared the image
+           userDataToUpdate.image = ''; // Or whatever your backend expects to signal image removal
+      }
+
+
+      // Only call updateUser if there are changes to save
+      if (Object.keys(userDataToUpdate).length > 0) {
+         await updateUser(userDataToUpdate);
+         console.log('User updated successfully');
+         setIsEditing(false);
+         setImageFile(undefined); // Clear the selected file after successful upload
+      } else {
+         setIsEditing(false); // Close editing if no changes were made
+      }
+
+    } catch (error) {
+      console.error('Error updating user:', error);
+      // Optionally, display an error message to the user
+    }
   };
+
 
   const exportData = () => {
     const data = {
@@ -92,12 +141,9 @@ const Settings: React.FC = () => {
                       <SquarePen size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
                     )}
                 </button>
-                <div className="relative p-4 bg-purple-100 dark:bg-purple-900 rounded-full mr-4">
-                  {image ? (
-                    <img src={image} alt="Profile" className="w-6 h-6 rounded-full object-cover" />
-                  ) : (
-                    <User className="w-6 h-6 text-purple-600 dark:text-purple-400" />
-                  )}
+                <div className="relative p-[4px] bg-gray-300 dark:bg-purple-300 rounded-full mr-4">
+                   {/* Display the current or selected image */}
+                  <img src={image || user?.image || '/default-profile.png'} alt="Profile" className="w-14 h-14 rounded-full object-cover" />
                   {isEditing && (
                     <label htmlFor="image-upload" className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer">
                       <Camera className="w-5 h-5 text-white" />

@@ -17,6 +17,24 @@ public class UserPrincipal implements UserDetails {
     private String email;
     private String password;
 
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
     public static UserPrincipal create(User user) {
         return new UserPrincipal(
                 user.getId(),
@@ -28,11 +46,6 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.emptyList();
-    }
-
-    @Override
-    public String getUsername() {
-        return email;
     }
 
     @Override

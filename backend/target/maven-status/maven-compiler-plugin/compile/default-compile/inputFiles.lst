@@ -6,6 +6,7 @@ D:\om_pimpale\project\backend\src\main\java\com\growmate\security\AuthTokenFilte
 D:\om_pimpale\project\backend\src\main\java\com\growmate\controller\AuthController.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\controller\UserController.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\dto\SignupRequest.java
+D:\om_pimpale\project\backend\src\main\java\com\growmate\exception\ResourceNotFoundException.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\dto\HabitRequest.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\GrowMateApplication.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\model\Habit.java
@@ -16,6 +17,8 @@ D:\om_pimpale\project\backend\src\main\java\com\growmate\dto\LoginRequest.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\controller\HabitLogController.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\security\JwtUtils.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\model\User.java
+D:\om_pimpale\project\backend\src\main\java\com\growmate\service\UserService.java
+D:\om_pimpale\project\backend\src\main\java\com\growmate\dto\UpdateUserRequest.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\model\HabitLog.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\dto\JwtResponse.java
 D:\om_pimpale\project\backend\src\main\java\com\growmate\repository\HabitRepository.java
