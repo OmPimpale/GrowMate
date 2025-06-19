@@ -100,7 +100,7 @@ const Navbar = () => {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -40, }}
                     transition={{ duration: 0.4 }}
-                    className="fixed top-[80px] sm:top-[90px] md:top-[100px] left-0 right-0 bg-white shadow-lg py-4 z-40 border-t-2"
+                    className="fixed left-0 right-0 bg-white/60 backdrop-blur-xl shadow-lg py-4 z-40 border-t-2"
                 >
                     <div className="flex flex-col items-center space-y-4">
                         {navLinks.map((data) =>
@@ -115,7 +115,7 @@ const Navbar = () => {
                         )}
                         <Link
                             to="/signup"
-                            className="bg-deep-purple text-white px-8 py-3 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter text-lg block w-fit text-center mt-4"
+                            className="bg-deep-purple text-white px-8 py-3 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter text-lg block w-fit text-center my-4"
                             onClick={closeMenu}
                         >
                             Get Started
