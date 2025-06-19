@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { LogIn, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast'; // Import toast
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -10,7 +11,7 @@ const Login: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { login } = useAuth();
   const navigate = useNavigate();
 
@@ -22,12 +23,15 @@ const Login: React.FC = () => {
     try {
       const success = await login(email, password);
       if (success) {
+        toast.success('Login successful!'); // <-- Add success toast here
         navigate('/dashboard');
       } else {
         setError('Invalid email or password');
+        toast.error('Invalid email or password.'); // <-- Add error toast here for specific message
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
+      toast.error('An error occurred during login.'); // <-- Add error toast here for general error
     } finally {
       setLoading(false);
     }

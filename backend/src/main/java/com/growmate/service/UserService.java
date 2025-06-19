@@ -20,14 +20,22 @@ public class UserService {
         logger.info("Attempting to update user with ID: {} with data: {}", userId, updateRequest);
 
         User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id " + userId)); // Corrected to
+                                                                                                       // throw
+                                                                                                       // ResourceNotFoundException
 
         user.setName(updateRequest.getName());
         user.setImage(updateRequest.getImage());
 
-        logger.info("Saving updated user with ID: {}", user.getId());
-        User savedUser = userRepository.save(user);
-        logger.info("User with ID: {} saved successfully.", savedUser.getId());
-        return savedUser;
+        logger.info("Starting save operation for user with ID: {}", user.getId());
+        try {
+            User savedUser = userRepository.save(user);
+            logger.info("User with ID: {} saved successfully.", savedUser.getId());
+            return savedUser;
+        } catch (Exception e) {
+            logger.error("Error saving user with ID: {}", user.getId(), e);
+            // Re-throw the exception or handle it as appropriate for your application
+            throw new RuntimeException("Failed to save user with ID: " + user.getId(), e);
+        }
     }
 }

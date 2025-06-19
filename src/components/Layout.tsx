@@ -5,6 +5,7 @@ import { Home, Target, BarChart3, Settings, LogOut, Moon, Sun, Shrub } from 'luc
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import LayoutNav from './LayoutNav';
+import toast from 'react-hot-toast'; // Import toast
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   const handleLogout = () => {
     logout();
+    toast.success('Logged out successfully!'); // <-- Add success toast here
     navigate('/');
   };
 

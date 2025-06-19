@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { UserPlus, Eye, EyeOff, Loader2 } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
+import toast from 'react-hot-toast'; // Import toast
 
 const Signup: React.FC = () => {
   const [name, setName] = useState('');
@@ -12,7 +13,7 @@ const Signup: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+
   const { signup } = useAuth();
   const navigate = useNavigate();
 
@@ -23,12 +24,14 @@ const Signup: React.FC = () => {
 
     if (password !== confirmPassword) {
       setError('Passwords do not match');
+      toast.error('Passwords do not match.'); // <-- Add toast for password mismatch
       setLoading(false);
       return;
     }
 
     if (password.length < 6) {
       setError('Password must be at least 6 characters long');
+      toast.error('Password must be at least 6 characters long.'); // <-- Add toast for short password
       setLoading(false);
       return;
     }
@@ -36,12 +39,15 @@ const Signup: React.FC = () => {
     try {
       const success = await signup(name, email, password);
       if (success) {
-        navigate('/dashboard');
+        toast.success('Account created successfully! Please log in.'); // <-- Add success toast
+        navigate('/login'); // Often, after signup, you'd navigate to login
       } else {
         setError('Failed to create account. Please try again.');
+        toast.error('Failed to create account. Please try again.'); // <-- Add error toast for signup failure
       }
     } catch (err) {
       setError('An error occurred. Please try again.');
+      toast.error('An error occurred during account creation.'); // <-- Add error toast for general error
     } finally {
       setLoading(false);
     }
