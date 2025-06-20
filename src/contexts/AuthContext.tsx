@@ -50,17 +50,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = async (email: string, password: string): Promise<boolean> => {
     try {
       const response = await authAPI.login(email, password);
-      
+
       const userData = {
         id: response.id.toString(),
         name: response.name,
         email: response.email
       };
-      
+
       setUser(userData);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(userData));
-      
+
       return true;
     } catch (error: any) {
       console.error('Login failed:', error);
@@ -71,17 +71,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const signup = async (name: string, email: string, password: string): Promise<boolean> => {
     try {
       const response = await authAPI.signup(name, email, password);
-      
+
       const userData = {
         id: response.id.toString(),
         name: response.name,
         email: response.email
       };
-      
+
       setUser(userData);
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(userData));
-      
+
       return true;
     } catch (error: any) {
       console.error('Signup failed:', error);
@@ -95,15 +95,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
-  const updateUser = (userData: Partial<User>) => {
-    setUser(prevUser => {
-      if (prevUser) {
-        const updatedUser = { ...prevUser, ...userData };
-        localStorage.setItem('user', JSON.stringify(updatedUser)); // Update local storage
-        return updatedUser;
-      }
-      return null;
-    });
+  const updateUser = async (userData: Partial<User>) => {
+    if (!user) return;
+
+    try {
+      const updated = await authAPI.updateUser(userData); // Now sending JSON
+      const updatedUser = { ...user, ...updated };
+
+      setUser(updatedUser);
+      localStorage.setItem("user", JSON.stringify(updatedUser));
+    } catch (error) {
+      console.error("Failed to update user:", error);
+    }
   };
 
   return (

@@ -12,6 +12,7 @@ import Progress from './pages/Progress';
 import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import AboutUs from './pages/AboutUs';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
                 } />
               </Routes>
             </div>
+            <Toaster position="top-center" reverseOrder={false} />
           </Router>
         </HabitProvider>
       </AuthProvider>

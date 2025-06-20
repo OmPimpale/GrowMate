@@ -1,7 +1,6 @@
 package com.growmate.dto;
 
 public class UpdateUserRequest {
-
     private String name;
     private String image;
 

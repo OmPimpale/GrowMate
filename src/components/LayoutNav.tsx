@@ -1,5 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Shrub, Home, Settings, LayoutDashboard, Sun, Moon, LogOut, Target, BarChart3 } from "lucide-react";
+import { Menu, X, Shrub, Home, Settings, Sun, Moon, LogOut, Target, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useTheme } from "../contexts/ThemeContext";

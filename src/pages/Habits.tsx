@@ -5,6 +5,7 @@ import Layout from '../components/Layout';
 import { useHabits } from '../contexts/HabitContext';
 import HabitModal from '../components/HabitModal';
 import Footer from './Footer';
+import toast from 'react-hot-toast'; // Import toast
 
 const Habits: React.FC = () => {
   const { habits, deleteHabit, toggleHabitCompletion, getHabitCompletion, getHabitStreak } = useHabits();
@@ -23,9 +24,60 @@ const Habits: React.FC = () => {
   };
 
   const handleDelete = (habitId: string) => {
-    if (window.confirm('Are you sure you want to delete this habit?')) {
-      deleteHabit(habitId);
-    }
+    toast.custom((t) => (
+      <motion.div
+        initial={{ opacity: 0, y: -50, scale: 0.9 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        className={`${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        } max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 dark:ring-gray-700`}
+      >
+        <div className="flex-1 p-4">
+          <div className="flex items-center"> {/* Changed to items-center */}
+            <div className="flex-shrink-0"> {/* Removed pt-0.5 */}
+              <Trash2 className="h-6 w-6 text-red-500 mr-3" aria-hidden="true" /> {/* Added mr-3 */}
+            </div>
+            <div className="flex-1"> {/* Removed ml-3 */}
+              <p className="text-sm font-medium text-gray-900 dark:text-white">
+                Confirm Deletion
+              </p>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                Are you sure you want to delete this habit?
+              </p>
+            </div>
+          </div>
+        </div>
+        {/* Buttons Section */}
+        <div className="flex flex-col border-l border-gray-200 dark:border-gray-700"> {/* Changed to flex-col */}
+          <button
+            onClick={() => {
+              try {
+                deleteHabit(habitId);
+                toast.success('Habit deleted successfully!'); // Success toast after confirmed deletion
+                toast.dismiss(t.id); // Dismiss the confirmation toast
+              } catch (error) {
+                console.error('Error deleting habit:', error);
+                toast.error('Failed to delete habit.'); // Error toast after failed deletion
+                toast.dismiss(t.id); // Dismiss the confirmation toast
+              }
+            }}
+            className="w-full border-b border-gray-200 dark:border-gray-700 rounded-none p-3 flex items-center justify-center text-sm font-medium text-red-600 hover:text-red-500 dark:text-red-400 dark:hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500"
+          >
+            Yes, Delete
+          </button>
+          <button
+            onClick={() => toast.dismiss(t.id)} // Dismiss the toast on cancel
+            className="w-full border-transparent rounded-none p-3 flex items-center justify-center text-sm font-medium text-gray-700 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-500"
+          >
+            Cancel
+          </button>
+        </div>
+      </motion.div>
+    ), {
+      duration: Infinity, // Keep the toast open until dismissed
+      position: 'top-center', // You can adjust the position
+    });
   };
 
   const closeModal = () => {
@@ -111,7 +163,7 @@ const Habits: React.FC = () => {
                           <Edit2 className="w-4 h-4" />
                         </button>
                         <button
-                          onClick={() => handleDelete(habit.id)}
+                          onClick={() => handleDelete(habit.id)} // Call handleDelete with the custom toast confirmation
                           className="p-2 text-gray-400 hover:text-red-500 transition-colors"
                         >
                           <Trash2 className="w-4 h-4" />

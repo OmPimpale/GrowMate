@@ -6,7 +6,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useHabits } from '../contexts/HabitContext';
 import Footer from './Footer';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 const Settings: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -41,46 +41,30 @@ const Settings: React.FC = () => {
 
   const handleSave = async () => {
     try {
-      const userDataToUpdate: { name?: string; image?: string; imageFile?: File } = {};
-
-      // Only include name if it has changed
-      if (name !== user?.name) {
-        userDataToUpdate.name = name;
-      }
-
-      // Include imageFile if a new one is selected
+      const formData = new FormData();
+      formData.append('name', name);
       if (imageFile) {
-        userDataToUpdate.imageFile = imageFile;
-      } else if (image && image !== user?.image) {
-        // If no new file, but the image preview changed (e.g., if user cleared the image input)
-        // You might need logic here to indicate to the backend to remove the image
-        // For now, we'll assume if imageFile is not present, and image is different,
-        // it means the user might have cleared the input or a similar scenario.
-        // Your backend should handle this appropriately (e.g., if image is empty string, remove image)
-        userDataToUpdate.image = image;
-      } else if (!image && user?.image) {
-        // Case where user explicitly cleared the image
-        userDataToUpdate.image = ''; // Or whatever your backend expects to signal image removal
+        formData.append('image', imageFile); // image file to upload
       }
 
+      const response = await fetch('http://localhost:8080/api/user/update', {
+        method: 'PUT',
+        body: formData,
+      });
 
-      // Only call updateUser if there are changes to save
-      if (Object.keys(userDataToUpdate).length > 0) {
-        await updateUser(userDataToUpdate);
-        console.log('User updated successfully');
-        toast.success('User updated successfully!'); // <-- Correctly placed
+      if (response.ok) {
+        toast.success('User updated successfully!');
         setIsEditing(false);
-        setImageFile(undefined); // Clear the selected file after successful upload
+        setImageFile(undefined);
       } else {
-        setIsEditing(false); // Close editing if no changes were made
+        const errorData = await response.text();
+        toast.error('Update failed: ' + errorData);
       }
-
     } catch (error) {
       console.error('Error updating user:', error);
-      toast.error('Failed to update user.'); // <-- Correctly placed
+      toast.error('Error updating user.');
     }
   };
-
 
   const exportData = () => {
     const data = {
@@ -145,7 +129,11 @@ const Settings: React.FC = () => {
                 </button>
                 <div className="relative p-[4px] bg-gray-300 dark:bg-purple-300 rounded-full mr-4">
                   {/* Display the current or selected image */}
-                  <img src={image || user?.image || '/default-profile.png'} alt="Profile" className="w-14 h-14 rounded-full object-cover" />
+                  <img
+                    src={image || (user?.image && `http://localhost:8080${user.image}`) || '/default-profile.png'}
+                    alt="Profile"
+                    className="w-14 h-14 rounded-full object-cover"
+                  />
                   {isEditing && (
                     <label htmlFor="image-upload" className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer">
                       <Camera className="w-5 h-5 text-white" />
@@ -331,9 +319,9 @@ const Settings: React.FC = () => {
             </motion.div>
           </div>
         </div>
-        <>
+        {/* <>
           <Toaster position="top-right" />
-        </>
+        </> */}
       </Layout>
       <Footer />
     </>

@@ -1,19 +1,19 @@
-import axios from 'axios';
+import axios from "axios";
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = "http://localhost:8080/api";
 
 // Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
-    'Content-Type': 'application/json', // Default Content-Type, will be overridden by FormData
+    "Content-Type": "application/json", // Default Content-Type, will be overridden by FormData
   },
 });
 
 // Add token to requests
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -29,9 +29,9 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      localStorage.removeItem('user');
-      window.location.href = '/login';
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -40,25 +40,32 @@ api.interceptors.response.use(
 // Auth API
 export const authAPI = {
   login: async (email: string, password: string) => {
-    const response = await api.post('/auth/login', { email, password });
+    const response = await api.post("/auth/login", { email, password });
     return response.data;
   },
 
   signup: async (name: string, email: string, password: string) => {
-    const response = await api.post('/auth/signup', { name, email, password });
+    const response = await api.post("/auth/signup", { name, email, password });
     return response.data;
   },
 
   getCurrentUser: async () => {
-    const response = await api.get('/user/me');
+    const response = await api.get("/user/me");
     return response.data;
   },
 
   // Modified updateUser to accept FormData
-  updateUser: async (data: FormData) => {
-    // When sending FormData, Axios automatically sets the Content-Type to multipart/form-data
-    // We don't need to explicitly set it here.
-    const response = await api.put('/user/me', data);
+  updateUser: async (data: { name?: string; imageFile?: File }) => {
+    const formData = new FormData();
+    if (data.name) formData.append("name", data.name);
+    if (data.imageFile) formData.append("image", data.imageFile);
+
+    const response = await api.put("/user/me", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data", // Let browser set boundaries
+      },
+    });
+
     return response.data;
   },
 };
@@ -66,7 +73,7 @@ export const authAPI = {
 // Habits API
 export const habitsAPI = {
   getAll: async () => {
-    const response = await api.get('/habits');
+    const response = await api.get("/habits");
     return response.data;
   },
 
@@ -76,7 +83,7 @@ export const habitsAPI = {
   },
 
   create: async (habitData: any) => {
-    const response = await api.post('/habits', habitData);
+    const response = await api.post("/habits", habitData);
     return response.data;
   },
 
@@ -101,7 +108,7 @@ export const habitsAPI = {
 // Habit Logs API
 export const habitLogsAPI = {
   getAll: async () => {
-    const response = await api.get('/habit-logs');
+    const response = await api.get("/habit-logs");
     return response.data;
   },
 
@@ -111,12 +118,14 @@ export const habitLogsAPI = {
   },
 
   toggle: async (habitId: string, date: string) => {
-    const response = await api.post('/habit-logs/toggle', { habitId, date });
+    const response = await api.post("/habit-logs/toggle", { habitId, date });
     return response.data;
   },
 
   checkCompletion: async (habitId: string, date: string) => {
-    const response = await api.get(`/habit-logs/check?habitId=${habitId}&date=${date}`);
+    const response = await api.get(
+      `/habit-logs/check?habitId=${habitId}&date=${date}`
+    );
     return response.data;
   },
 };
