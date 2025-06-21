@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
-import { Menu, X, Shrub } from "lucide-react";
+import { Menu, X, Shrub, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
+    const { isAuthenticated, setUser } = useAuth();
+    const navigate = useNavigate();
+    const { user, logout } = useAuth();
 
     useEffect(() => {
         const handleResize = () => {
@@ -26,6 +30,11 @@ const Navbar = () => {
         setIsMenuOpen(false);
     };
 
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
     const navLinks = [
         {
             id: 1,
@@ -35,12 +44,7 @@ const Navbar = () => {
         {
             id: 2,
             name: "About Us",
-            link: "about-us"
-        },
-        {
-            id: 3,
-            name: "Login",
-            link: "login",
+            link: "/about-us"
         },
     ];
 
@@ -67,23 +71,51 @@ const Navbar = () => {
                                 {data.name}
                             </Link>
                         )}
-                        <Link
-                            to="/signup"
-                            className="bg-deep-purple text-white px-6 py-2 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter"
-                        >
-                            Get Started
-                        </Link>
+                        {isAuthenticated ?
+                            (<>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center p-3 rounded-tr-lg rounded-bl-lg text-red-600 hover:bg-red-100 transition-colors"
+                                >
+                                    <LogOut className="w-5 h-5 mr-3" />
+                                    <span className="font-medium font-inter">Logout</span>
+                                </button>
+                                <Link
+                                    to="/dashboard"
+                                    className="rounded-full"
+                                >
+                                    <img className="rounded-full w-10" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
+                                </Link>
+                            </>
+                            ) : (
+                                <>
+                                    <Link
+                                        to="/login"
+                                        className="text-deep-purple hover:text-teal font-medium transition-colors duration-300 font-inter py-2"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        to="/signup"
+                                        className="bg-deep-purple text-white px-6 py-2 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter"
+                                    >
+                                        Get Started
+                                    </Link>
+                                </>
+                            )
+                        }
+
                     </div>
                 )}
 
                 {!isDesktop && (
                     <motion.button
                         exit={{
-                            opacity:0
+                            opacity: 0
                         }}
                         transition={{
-                            duration:1,
-                            ease:"linear"
+                            duration: 1,
+                            ease: "linear"
                         }}
                         className="cursor-pointer text-deep-purple p-2 rounded-full hover:bg-purple-200 duration-300"
                         onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -113,13 +145,39 @@ const Navbar = () => {
                                 {data.name}
                             </Link>
                         )}
-                        <Link
-                            to="/signup"
-                            className="bg-deep-purple text-white px-8 py-3 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter text-lg block w-fit text-center my-4"
-                            onClick={closeMenu}
-                        >
-                            Get Started
-                        </Link>
+                        {isAuthenticated ?
+                            (<>
+                                <button
+                                    onClick={handleLogout}
+                                    className="flex items-center p-3 rounded-tr-lg rounded-bl-lg text-red-600 hover:bg-red-100 transition-colors"
+                                >
+                                    <LogOut className="w-5 h-5 mr-3" />
+                                    <span className="font-medium font-inter">Logout</span>
+                                </button>
+                                <Link
+                                    to="/dashboard"
+                                    className="rounded-full"
+                                >
+                                    <img className="rounded-full w-12 my-2" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
+                                </Link>
+                            </>
+                            ) : (
+                                <>
+                                    <Link
+                                        to="/login"
+                                        className="text-deep-purple hover:text-teal font-medium transition-colors duration-300 font-inter py-2"
+                                    >
+                                        Login
+                                    </Link>
+                                    <Link
+                                        to="/signup"
+                                        className="bg-deep-purple text-white px-6 py-2 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-colors font-medium duration-300 text-inter"
+                                    >
+                                        Get Started
+                                    </Link>
+                                </>
+                            )
+                        }
                     </div>
                 </motion.nav>
             )}

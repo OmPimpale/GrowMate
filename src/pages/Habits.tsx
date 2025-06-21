@@ -4,8 +4,8 @@ import { Plus, Edit2, Trash2, CheckCircle2, Flame, Calendar } from 'lucide-react
 import Layout from '../components/Layout';
 import { useHabits } from '../contexts/HabitContext';
 import HabitModal from '../components/HabitModal';
-import Footer from './Footer';
 import toast from 'react-hot-toast'; // Import toast
+import DashboardFooter from './DashboardFooter';
 
 const Habits: React.FC = () => {
   const { habits, deleteHabit, toggleHabitCompletion, getHabitCompletion, getHabitStreak } = useHabits();
@@ -214,7 +214,7 @@ const Habits: React.FC = () => {
           />
         </div>
       </Layout>
-      <Footer />
+      <DashboardFooter />
     </>
   );
 };

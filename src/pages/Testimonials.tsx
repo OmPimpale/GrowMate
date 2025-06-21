@@ -24,7 +24,7 @@ const Testimonials = () => {
 
     return (
         <>
-            <section className="bg-white py-20">
+            <section className="bg-transparent py-20">
                 <div className="container mx-auto px-6">
                     <motion.div
                         initial={{ opacity: 0 }}

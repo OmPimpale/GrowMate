@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Trash2, Download, Shield, SquarePen, X, Camera } from 'lucide-react';
+import { Moon, Sun, Trash2, Download, Shield, SquarePen, X } from 'lucide-react'; // Removed Camera
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useHabits } from '../contexts/HabitContext';
-import Footer from './Footer';
-import toast from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
+import DashboardFooter from './DashboardFooter';
 
 const Settings: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -14,55 +14,42 @@ const Settings: React.FC = () => {
   const { habits, habitLogs } = useHabits();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
-  const [image, setImage] = useState(user?.image || ''); // State for image preview (Data URL)
-  const [imageFile, setImageFile] = useState<File | undefined>(undefined); // State for the actual image File object
+  // Removed image and imageFile states
 
   // Update state when user data changes (e.g., after updateUser)
   useEffect(() => {
     if (user) {
       setName(user.name || '');
-      setImage(user.image || '');
-      // When user data changes, reset imageFile as the new user data is loaded
-      setImageFile(undefined);
+      // Removed image state update
     }
   }, [user]);
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string); // For image preview
-      };
-      reader.readAsDataURL(file);
-      setImageFile(file); // Store the File object for upload
-    }
-  };
+  // Removed handleImageChange function
 
   const handleSave = async () => {
     try {
-      const formData = new FormData();
-      formData.append('name', name);
-      if (imageFile) {
-        formData.append('image', imageFile); // image file to upload
+      const userDataToUpdate: { name?: string } = {}; // Simplified type
+
+      // Only include name if it has changed
+      if (name !== user?.name) {
+        userDataToUpdate.name = name;
       }
 
-      const response = await fetch('http://localhost:8080/api/user/update', {
-        method: 'PUT',
-        body: formData,
-      });
+      // Removed image-related logic
 
-      if (response.ok) {
+      // Only call updateUser if there are changes to save
+      if (Object.keys(userDataToUpdate).length > 0) {
+        await updateUser(userDataToUpdate); // updateUser now only expects name
+        console.log('User updated successfully');
         toast.success('User updated successfully!');
         setIsEditing(false);
-        setImageFile(undefined);
       } else {
-        const errorData = await response.text();
-        toast.error('Update failed: ' + errorData);
+        setIsEditing(false); // Close editing if no changes were made
       }
+
     } catch (error) {
       console.error('Error updating user:', error);
-      toast.error('Error updating user.');
+      toast.error('Failed to update user.');
     }
   };
 
@@ -127,26 +114,7 @@ const Settings: React.FC = () => {
                       <SquarePen size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
                     )}
                 </button>
-                <div className="relative p-[4px] bg-gray-300 dark:bg-purple-300 rounded-full mr-4">
-                  {/* Display the current or selected image */}
-                  <img
-                    src={image || (user?.image && `http://localhost:8080${user.image}`) || '/default-profile.png'}
-                    alt="Profile"
-                    className="w-14 h-14 rounded-full object-cover"
-                  />
-                  {isEditing && (
-                    <label htmlFor="image-upload" className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-full cursor-pointer">
-                      <Camera className="w-5 h-5 text-white" />
-                      <input
-                        id="image-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="hidden"
-                      />
-                    </label>
-                  )}
-                </div>
+                <img className="rounded-full w-20 mr-5" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
                 <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
                   User Profile
                 </h2>
@@ -319,11 +287,11 @@ const Settings: React.FC = () => {
             </motion.div>
           </div>
         </div>
-        {/* <>
+        <>
           <Toaster position="top-right" />
-        </> */}
+        </>
       </Layout>
-      <Footer />
+      <DashboardFooter />
     </>
   );
 };

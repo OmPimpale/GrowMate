@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Eye, Lightbulb, } from 'lucide-react';
 import Navbar from './Navbar';
 import Stats from './Stats';
@@ -8,9 +8,36 @@ import SectionCTA from './SectionCTA';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
+import video from "../videos/GrowMateVideo.mp4";
 
 // Main AboutUs component
 const AboutUs: React.FC = () => {
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                if (entry.isIntersecting) {
+                    video.play().catch((error) => {
+                        console.log('Auto-play prevented:', error);
+                    });
+                } else {
+                    video.pause();
+                }
+            },
+            { threshold: 0.5 } // Play when 50% of the video is visible
+        );
+
+        observer.observe(video);
+
+        return () => {
+            observer.unobserve(video);
+        };
+    }, []);
+
     return (
         <div className="min-h-screen">
             <Navbar />
@@ -55,12 +82,26 @@ const AboutUs: React.FC = () => {
                 </div>
             </motion.section>
 
-            <Features />
+            {/* video section */}
+            <div
+                className='p-5 py-20 w-full max-w-4xl mx-auto'>
+                <video
+                    ref={videoRef}
+                    src={video}
+                    playsInline
+                    controls
+                    className="rounded-lg shadow-lg w-full "
+                />
+            </div>
+
             <Stats />
-            <Testimonials />
+            <Features />
+            <div className='bg-gradient-to-tr from-soft-lavender via-white to-soft-lavender'>
+                <Testimonials />
+            </div>
 
             {/* Our Vision Section (New) */}
-            <section className="py-20 md:px-8 lg:px-16 font-poppins bg-gradient-to-b from-soft-lavender to-white text-white">
+            <section className="py-20 md:px-8 lg:px-16 font-poppins text-white">
                 <h2 className="text-4xl font-bold mb-6 md:flex items-center justify-center text-deep-purple">
                     <Eye size={36} className="mx-auto mb-2 md:mb-0 md:mx-0 md:mr-2 text-teal" /> Our Vision for the Future
                 </h2>

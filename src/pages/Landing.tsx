@@ -46,7 +46,7 @@ const Landing: React.FC = () => {
             </Link>
           </div>
         </motion.div>
-        <img src={homeImg} alt="habits" className="md:w-[80%] lg:w-[410px] lg:pl-10 mx-auto lg:mx-0 mt-10 lg:mt-0"/>
+        <img src={homeImg} alt="habits" className="md:w-[80%] lg:w-[410px] lg:pl-10 mx-auto lg:mx-0 mt-10 lg:mt-0" loading="lazy"/>
       </section>
 
       <Features />

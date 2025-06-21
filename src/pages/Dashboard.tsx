@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { useHabits } from '../contexts/HabitContext';
 import { useAuth } from '../contexts/AuthContext';
-import Footer from './Footer';
+import DashboardFooter from './DashboardFooter';
 
 const Dashboard: React.FC = () => {
   const { habits, getHabitCompletion, getHabitStreak } = useHabits();
@@ -235,7 +235,7 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
       </Layout>
-      <Footer />
+      <DashboardFooter />
     </>
   );
 };

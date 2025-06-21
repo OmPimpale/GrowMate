@@ -1,10 +1,10 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authAPI } from '../services/api';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { authAPI } from '../services/authAPI';
 
 interface User {
   id: string;
   name: string;
-  image?: string;
+  // Removed image from User interface
   email: string;
 }
 
@@ -14,13 +14,13 @@ interface AuthContextType {
   signup: (name: string, email: string, password: string) => Promise<boolean>;
   logout: () => void;
   isAuthenticated: boolean;
-  updateUser: (userData: Partial<User>) => void;
+  updateUser: (userData: { name?: string }) => Promise<void>; // Signature for name only
   loading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +33,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           setUser({
             id: userData.id.toString(),
             name: userData.name,
-            email: userData.email
+            email: userData.email,
+            // Removed image from setUser
           });
         } catch (error) {
           console.error('Failed to get current user:', error);
@@ -54,7 +55,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const userData = {
         id: response.id.toString(),
         name: response.name,
-        email: response.email
+        email: response.email,
+        // Removed image from login response handling
       };
 
       setUser(userData);
@@ -75,7 +77,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const userData = {
         id: response.id.toString(),
         name: response.name,
-        email: response.email
+        email: response.email,
+        // Removed image from signup response handling
       };
 
       setUser(userData);
@@ -95,19 +98,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('user');
   };
 
-  const updateUser = async (userData: Partial<User>) => {
+  // Modified updateUser to only handle name and send JSON
+  const updateUser = async (userData: { name?: string }): Promise<void> => {
     if (!user) return;
 
     try {
-      const updated = await authAPI.updateUser(userData); // Now sending JSON
-      const updatedUser = { ...user, ...updated };
+      // Assuming backend expects JSON with name
+      const response = await authAPI.updateUser(userData); // Pass userData object directly
 
+      const updatedUser = { ...user, ...response }; // Assuming backend returns the updated user with name
       setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      localStorage.setItem('user', JSON.stringify(updatedUser));
+
+      console.log('User updated successfully on backend and frontend.');
+
     } catch (error) {
-      console.error("Failed to update user:", error);
+      console.error('Failed to update user:', error);
+      throw error;
     }
   };
+
 
   return (
     <AuthContext.Provider value={{
