@@ -55,10 +55,10 @@ export const authAPI = {
   },
 
   // Modified updateUser to accept FormData
-  updateUser: async (data: { name?: string; imageFile?: File }) => {
+  updateUser: async (data: { name?: string }) => {
     const formData = new FormData();
     if (data.name) formData.append("name", data.name);
-    if (data.imageFile) formData.append("image", data.imageFile);
+    // if (data.imageFile) formData.append("image", data.imageFile);
 
     const response = await api.put("/user/me", formData, {
       headers: {

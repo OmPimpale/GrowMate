@@ -1,4 +1,4 @@
-import { Github, GraduationCap, Linkedin, LinkedinIcon, LogOut, LucideLinkedin, Mail, MapPin, Phone, Shrub } from "lucide-react";
+import { Github, GraduationCap, Linkedin, LogOut, Mail, MapPin, Phone, Shrub } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 
