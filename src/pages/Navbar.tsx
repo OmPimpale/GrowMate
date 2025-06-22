@@ -3,6 +3,7 @@ import { Menu, X, Shrub, LogOut } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import userImg from "../images/user.jpg"
 
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -84,7 +85,7 @@ const Navbar = () => {
                                     to="/dashboard"
                                     className="rounded-full"
                                 >
-                                    <img className="rounded-full w-10" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
+                                    <img className="rounded-full w-10" src={userImg} alt="user" loading="lazy" />
                                 </Link>
                             </>
                             ) : (
@@ -158,7 +159,7 @@ const Navbar = () => {
                                     to="/dashboard"
                                     className="rounded-full"
                                 >
-                                    <img className="rounded-full w-12 my-2" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
+                                    <img className="rounded-full w-12 my-2" src={userImg} alt="user" loading="lazy" />
                                 </Link>
                             </>
                             ) : (

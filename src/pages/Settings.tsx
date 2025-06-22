@@ -7,6 +7,7 @@ import { useTheme } from '../contexts/ThemeContext';
 import { useHabits } from '../contexts/HabitContext';
 import toast, { Toaster } from 'react-hot-toast';
 import DashboardFooter from './DashboardFooter';
+import userImg from "../images/user.jpg"
 
 const Settings: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -114,7 +115,7 @@ const Settings: React.FC = () => {
                       <SquarePen size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
                     )}
                 </button>
-                <img className="rounded-full w-20 mr-5" src="https://img.freepik.com/premium-vector/avatar-icon0002_750950-43.jpg?uid=R204309784&ga=GA1.1.1840392417.1724061476&semt=ais_hybrid&w=740" alt="user" />
+                 <img className="rounded-full w-16 mr-4" src={userImg} alt="user" loading="lazy" />
                 <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
                   User Profile
                 </h2>

@@ -8,7 +8,7 @@ import Stats from "./Stats";
 import Features from "./Features";
 import Testimonials from "./Testimonials";
 import SectionCTA from "./SectionCTA";
-import homeImg from '../images/homeImg1.png'
+import homeImg from '../images/homeImg.png'
 
 const Landing: React.FC = () => {
 

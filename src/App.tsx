@@ -13,6 +13,7 @@ import Settings from './pages/Settings';
 import ProtectedRoute from './components/ProtectedRoute';
 import AboutUs from './pages/AboutUs';
 import { Toaster } from 'react-hot-toast';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path='/about-us' element={<AboutUs />} />
+                <Route path='page-not-found' element={<NotFound />} />
                 <Route path="/dashboard" element={
                   <ProtectedRoute>
                     <Dashboard />
