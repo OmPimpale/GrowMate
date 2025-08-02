@@ -39,7 +39,7 @@ const AboutUs: React.FC = () => {
     }, []);
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen pt-[84px]">
             <Navbar />
 
             <motion.header
@@ -47,8 +47,8 @@ const AboutUs: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ ease: 'anticipate', duration: 1 }}
                 viewport={{ once: true }}
-                className="relative py-16 text-center font-poppins bg-deep-purple text-white rounded-b-3xl shadow-xl overflow-hidden pt-[150px]">
-                <div className="absolute le inset-0 z-0 opacity-10 mt-[100px]" style={{ backgroundImage: 'url(https://placehold.co/1920x400/8A2BE2/FFFFFF?text=GrowMate+Vision)', }}></div>
+                className="relative py-16 text-center font-poppins bg-deep-purple text-white rounded-b-3xl shadow-xl overflow-hidden">
+                <div className="absolute inset-0 z-0 opacity-10" style={{ backgroundImage: 'url(https://placehold.co/1920x400/8A2BE2/FFFFFF?text=GrowMate+Vision)', }}></div>
                 <div className="relative z-10 p-4">
                     <h1 className="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">Discover Grow Mate</h1>
                     <p className="text-xl md:text-2xl font-light max-w-3xl mx-auto opacity-90 text-inter">
@@ -101,7 +101,7 @@ const AboutUs: React.FC = () => {
             </div>
 
             {/* Our Vision Section (New) */}
-            <section className="py-20 md:px-8 lg:px-16 font-poppins text-white">
+            <section className="px-5 py-20 md:px-8 lg:px-16 font-poppins text-white text-center">
                 <h2 className="text-4xl font-bold mb-6 md:flex items-center justify-center text-deep-purple">
                     <Eye size={36} className="mx-auto mb-2 md:mb-0 md:mx-0 md:mr-2 text-teal" /> Our Vision for the Future
                 </h2>
