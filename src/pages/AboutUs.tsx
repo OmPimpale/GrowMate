@@ -22,7 +22,7 @@ const AboutUs: React.FC = () => {
             ([entry]) => {
                 if (entry.isIntersecting) {
                     video.play().catch((error) => {
-                        console.log('Auto-play prevented:', error);
+                        console.error('Auto-play prevented:', error);
                     });
                 } else {
                     video.pause();

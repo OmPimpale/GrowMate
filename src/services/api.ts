@@ -25,109 +25,16 @@ api.interceptors.request.use(
 );
 
 // Handle token expiration
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      window.location.href = "/login";
-    }
-    return Promise.reject(error);
-  }
-);
-
-// Auth API
-export const authAPI = {
-  login: async (email: string, password: string) => {
-    const response = await api.post("/auth/login", { email, password });
-    return response.data;
-  },
-
-  signup: async (name: string, email: string, password: string) => {
-    const response = await api.post("/auth/signup", { name, email, password });
-    return response.data;
-  },
-
-  getCurrentUser: async () => {
-    const response = await api.get("/user/me");
-    return response.data;
-  },
-
-  // Modified updateUser to accept FormData
-  updateUser: async (data: { name?: string }) => {
-    const formData = new FormData();
-    if (data.name) formData.append("name", data.name);
-    // if (data.imageFile) formData.append("image", data.imageFile);
-
-    const response = await api.put("/user/me", formData, {
-      headers: {
-        "Content-Type": "multipart/form-data", // Let browser set boundaries
-      },
-    });
-
-    return response.data;
-  },
-};
-
-// Habits API
-export const habitsAPI = {
-  getAll: async () => {
-    const response = await api.get("/habits");
-    return response.data;
-  },
-
-  getById: async (id: string) => {
-    const response = await api.get(`/habits/${id}`);
-    return response.data;
-  },
-
-  create: async (habitData: any) => {
-    const response = await api.post("/habits", habitData);
-    return response.data;
-  },
-
-  update: async (id: string, habitData: any) => {
-    const response = await api.put(`/habits/${id}`, habitData);
-    return response.data;
-  },
-
-  delete: async (id: string) => {
-    const response = await api.delete(`/habits/${id}`);
-    return response.data;
-  },
-
-  // Note: You have a duplicate updateUser in habitsAPI.
-  // It's likely you only need it in authAPI. You can remove this one.
-  // updateUser: async (userData: { name: string; image?: string }) => {
-  //   const response = await api.put('/user/me', userData);
-  //   return response.data;
-  // },
-};
-
-// Habit Logs API
-export const habitLogsAPI = {
-  getAll: async () => {
-    const response = await api.get("/habit-logs");
-    return response.data;
-  },
-
-  getByHabit: async (habitId: string) => {
-    const response = await api.get(`/habit-logs/habit/${habitId}`);
-    return response.data;
-  },
-
-  toggle: async (habitId: string, date: string) => {
-    const response = await api.post("/habit-logs/toggle", { habitId, date });
-    return response.data;
-  },
-
-  checkCompletion: async (habitId: string, date: string) => {
-    const response = await api.get(
-      `/habit-logs/check?habitId=${habitId}&date=${date}`
-    );
-    return response.data;
-  },
-};
+// api.interceptors.response.use(
+//   (response) => response,
+//   (error) => {
+//     if (error.response?.status === 401) {
+//       localStorage.removeItem("token");
+//       localStorage.removeItem("user");
+//       window.location.href = "/login";
+//     }
+//     return Promise.reject(error);
+//   }
+// );
 
 export default api;

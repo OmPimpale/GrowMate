@@ -4,7 +4,6 @@ import { authAPI } from '../services/authAPI';
 interface User {
   id: string;
   name: string;
-  // Removed image from User interface
   email: string;
 }
 
@@ -27,15 +26,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   useEffect(() => {
     const initializeAuth = async () => {
       const token = localStorage.getItem('token');
-      if (token) {
+      const storedUser = localStorage.getItem('user');
+      if (token && storedUser) {
         try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+
           const userData = await authAPI.getCurrentUser();
-          setUser({
+          const updatedUser = {
             id: userData.id.toString(),
             name: userData.name,
             email: userData.email,
-            // Removed image from setUser
-          });
+          };
+          setUser(updatedUser);
+          localStorage.setItem('user', JSON.stringify(updatedUser));
         } catch (error) {
           console.error('Failed to get current user:', error);
           localStorage.removeItem('token');
@@ -109,8 +113,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const updatedUser = { ...user, ...response }; // Assuming backend returns the updated user with name
       setUser(updatedUser);
       localStorage.setItem('user', JSON.stringify(updatedUser));
-
-      console.log('User updated successfully on backend and frontend.');
 
     } catch (error) {
       console.error('Failed to update user:', error);

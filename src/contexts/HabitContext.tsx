@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { habitsAPI, habitLogsAPI } from '../services/api';
 import { useAuth } from './AuthContext';
+import { habitLogsAPI, habitsAPI } from '../services/habits';
 
 export interface Habit {
   id: string;

@@ -5,7 +5,7 @@ import Layout from '../components/Layout';
 import { useHabits } from '../contexts/HabitContext';
 import HabitModal from '../components/HabitModal';
 import toast from 'react-hot-toast'; // Import toast
-import DashboardFooter from './DashboardFooter';
+import Footer from './Footer';
 
 const Habits: React.FC = () => {
   const { habits, deleteHabit, toggleHabitCompletion, getHabitCompletion, getHabitStreak } = useHabits();
@@ -29,9 +29,8 @@ const Habits: React.FC = () => {
         initial={{ opacity: 0, y: -50, scale: 0.9 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className={`${
-          t.visible ? 'animate-enter' : 'animate-leave'
-        } max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 dark:ring-gray-700`}
+        className={`${t.visible ? 'animate-enter' : 'animate-leave'
+          } max-w-md w-full bg-white dark:bg-gray-800 shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 dark:ring-gray-700`}
       >
         <div className="flex-1 p-4">
           <div className="flex items-center"> {/* Changed to items-center */}
@@ -193,8 +192,8 @@ const Habits: React.FC = () => {
                     <button
                       onClick={() => handleToggleComplete(habit.id)}
                       className={`w-full py-3 rounded-tr-xl rounded-bl-xl font-medium transition-all flex items-center justify-center text-inter ${isCompleted
-                          ? 'bg-emerald-500 text-white hover:bg-emerald-600'
-                          : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                        ? 'bg-emerald-500 text-white hover:bg-emerald-600'
+                        : 'bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
                         }`}
                     >
                       <CheckCircle2 className="w-5 h-5 mr-2" />
@@ -214,7 +213,7 @@ const Habits: React.FC = () => {
           />
         </div>
       </Layout>
-      <DashboardFooter />
+      <Footer />
     </>
   );
 };

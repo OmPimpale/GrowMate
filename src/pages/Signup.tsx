@@ -2,56 +2,97 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { UserPlus, Eye, EyeOff, Loader2 } from 'lucide-react';
+import { useFormik } from 'formik';
 import { useAuth } from '../contexts/AuthContext';
-import toast from 'react-hot-toast'; // Import toast
+import toast from 'react-hot-toast';
+import { EMAIL_PATTERN, NAME_PATTERN, PASSWORD_RULES } from '../utils/validationRegesx';
+
+interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const Signup: React.FC = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
   const { signup } = useAuth();
   const navigate = useNavigate();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError('');
+  const validate = (values: FormValues): Partial<FormValues> => {
+    const errors: Partial<FormValues> = {};
 
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      toast.error('Passwords do not match.'); // <-- Add toast for password mismatch
-      setLoading(false);
-      return;
+    // Name
+    if (!values.name) {
+      errors.name = 'Full Name is required';
+    } else if (!NAME_PATTERN.test(values.name)) {
+      errors.name = 'Please enter a valid name (letters only)';
     }
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters long');
-      toast.error('Password must be at least 6 characters long.'); // <-- Add toast for short password
-      setLoading(false);
-      return;
+    // Email
+    if (!values.email) {
+      errors.email = 'Email is required';
+    } else if (!EMAIL_PATTERN.test(values.email)) {
+      errors.email = 'Please enter a valid email address';
     }
 
-    try {
-      const success = await signup(name, email, password);
-      if (success) {
-        toast.success('Account created successfully! Please log in.'); // <-- Add success toast
-        navigate('/login'); // Often, after signup, you'd navigate to login
-      } else {
-        setError('Failed to create account. Please try again.');
-        toast.error('Failed to create account. Please try again.'); // <-- Add error toast for signup failure
+    // Password
+    if (!values.password) {
+      errors.password = 'Password is required';
+    } else {
+      if (values.password.length < PASSWORD_RULES.MIN_LENGTH) {
+        errors.password = `Password must be at least ${PASSWORD_RULES.MIN_LENGTH} characters`;
+      } else if (values.password.length > PASSWORD_RULES.MAX_LENGTH) {
+        errors.password = `Password cannot exceed ${PASSWORD_RULES.MAX_LENGTH} characters`;
+      } else if (!PASSWORD_RULES.UPPERCASE.test(values.password)) {
+        errors.password = 'Password must contain at least one uppercase letter';
+      } else if (!PASSWORD_RULES.LOWERCASE.test(values.password)) {
+        errors.password = 'Password must contain at least one lowercase letter';
+      } else if (!PASSWORD_RULES.NUMBER.test(values.password)) {
+        errors.password = 'Password must contain at least one number';
+      } else if (!PASSWORD_RULES.SPECIAL_CHAR.test(values.password)) {
+        errors.password = 'Password must contain at least one special character';
+      } else if (!PASSWORD_RULES.NO_LEADING_TRAILING_SPACE.test(values.password)) {
+        errors.password = 'Password must not start or end with spaces';
       }
-    } catch (err) {
-      setError('An error occurred. Please try again.');
-      toast.error('An error occurred during account creation.'); // <-- Add error toast for general error
-    } finally {
-      setLoading(false);
     }
+
+    // Confirm Password
+    if (!values.confirmPassword) {
+      errors.confirmPassword = 'Confirm Password is required';
+    } else if (values.confirmPassword !== values.password) {
+      errors.confirmPassword = 'Passwords do not match';
+    }
+
+    return errors;
   };
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+    },
+    validate,
+    validateOnBlur: true,
+    validateOnChange: false, // Validate only on blur for immediate feedback after field interaction
+    onSubmit: async (values, { setSubmitting }) => {
+      try {
+        const success = await signup(values.name, values.email, values.password);
+        if (success) {
+          toast.success('Account created successfully! Please log in.');
+          navigate('/login');
+        } else {
+          toast.error('Failed to create account. Please try again.');
+        }
+      } catch (err) {
+        toast.error('An error occurred during account creation.');
+      } finally {
+        setSubmitting(false);
+      }
+    },
+  });
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-soft-lavender to-white flex items-center justify-center p-6">
@@ -77,7 +118,7 @@ const Signup: React.FC = () => {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={formik.handleSubmit} className="space-y-6">
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2 text-inter">
               Full Name
@@ -85,12 +126,23 @@ const Signup: React.FC = () => {
             <input
               type="text"
               id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors"
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors ${formik.touched.name && formik.errors.name ? 'border-red-500' : ''
+                }`}
               placeholder="Enter your full name"
-              required
             />
+            {formik.touched.name && formik.errors.name && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-600 text-sm mt-1 text-inter"
+              >
+                {formik.errors.name}
+              </motion.div>
+            )}
           </div>
 
           <div>
@@ -100,12 +152,23 @@ const Signup: React.FC = () => {
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors"
+              name="email"
+              value={formik.values.email}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors ${formik.touched.email && formik.errors.email ? 'border-red-500' : ''
+                }`}
               placeholder="Enter your email"
-              required
             />
+            {formik.touched.email && formik.errors.email && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-600 text-sm mt-1 text-inter"
+              >
+                {formik.errors.email}
+              </motion.div>
+            )}
           </div>
 
           <div>
@@ -116,11 +179,13 @@ const Signup: React.FC = () => {
               <input
                 type={showPassword ? 'text' : 'password'}
                 id="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors pr-12"
+                name="password"
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors pr-12 ${formik.touched.password && formik.errors.password ? 'border-red-500' : ''
+                  }`}
                 placeholder="Create a password"
-                required
               />
               <button
                 type="button"
@@ -130,6 +195,15 @@ const Signup: React.FC = () => {
                 {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
               </button>
             </div>
+            {formik.touched.password && formik.errors.password && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-600 text-sm mt-1 text-inter"
+              >
+                {formik.errors.password}
+              </motion.div>
+            )}
           </div>
 
           <div>
@@ -139,33 +213,34 @@ const Signup: React.FC = () => {
             <input
               type="password"
               id="confirmPassword"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors"
+              name="confirmPassword"
+              value={formik.values.confirmPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className={`w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-deep-purple focus:border-transparent transition-colors ${formik.touched.confirmPassword && formik.errors.confirmPassword ? 'border-red-500' : ''
+                }`}
               placeholder="Confirm your password"
-              required
             />
+            {formik.touched.confirmPassword && formik.errors.confirmPassword && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-red-600 text-sm mt-1 text-inter"
+              >
+                {formik.errors.confirmPassword}
+              </motion.div>
+            )}
           </div>
-
-          {error && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm text-inter"
-            >
-              {error}
-            </motion.div>
-          )}
 
           <button
             type="submit"
-            disabled={loading}
+            disabled={formik.isSubmitting}
             className="w-full bg-deep-purple text-white py-3 rounded-lg hover:bg-purple-800 transition-colors font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center text-inter"
           >
-            {loading ? (
+            {formik.isSubmitting ? (
               <Loader2 className="w-5 h-5 animate-spin mr-2" />
             ) : null}
-            {loading ? 'Creating Account...' : 'Create Account'}
+            {formik.isSubmitting ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
 

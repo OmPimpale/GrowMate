@@ -4,7 +4,7 @@ import { BarChart3, Calendar, TrendingUp, Filter } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar } from 'recharts';
 import Layout from '../components/Layout';
 import { useHabits } from '../contexts/HabitContext';
-import DashboardFooter from './DashboardFooter';
+import Footer from './Footer';
 
 const Progress: React.FC = () => {
   const { habits, habitLogs, getHabitStreak } = useHabits();
@@ -342,7 +342,7 @@ const Progress: React.FC = () => {
           </motion.div>
         </div>
       </Layout>
-      <DashboardFooter />
+      <Footer />
     </>
   );
 };

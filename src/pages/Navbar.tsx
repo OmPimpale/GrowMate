@@ -8,7 +8,7 @@ import userImg from "../images/user.jpg"
 const Navbar = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isDesktop, setIsDesktop] = useState(window.innerWidth >= 1024);
-    const { isAuthenticated, setUser } = useAuth();
+    const { isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const { user, logout } = useAuth();
 
@@ -72,15 +72,8 @@ const Navbar = () => {
                                 {data.name}
                             </Link>
                         )}
-                        {isAuthenticated ?
+                        {isAuthenticated && user ?
                             (<>
-                                <button
-                                    onClick={handleLogout}
-                                    className="flex items-center p-3 rounded-tr-lg rounded-bl-lg text-red-600 hover:bg-red-100 transition-colors"
-                                >
-                                    <LogOut className="w-5 h-5 mr-3" />
-                                    <span className="font-medium font-inter">Logout</span>
-                                </button>
                                 <Link
                                     to="/dashboard"
                                     className="rounded-full"

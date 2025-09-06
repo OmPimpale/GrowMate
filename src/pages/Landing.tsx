@@ -9,8 +9,10 @@ import Features from "./Features";
 import Testimonials from "./Testimonials";
 import SectionCTA from "./SectionCTA";
 import homeImg from '../images/homeImg.png'
+import { useAuth } from "../contexts/AuthContext";
 
 const Landing: React.FC = () => {
+  const { user } = useAuth();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-soft-lavender to-white pt-[84px]">
@@ -31,7 +33,7 @@ const Landing: React.FC = () => {
             Build good <span className="text-teal">Habits</span>, Break bad once
             and reach your <span className="text-teal">Goals</span>!
           </p>
-          <div className="py-5">
+          {!user && (<div className="py-5">
             <Link
               to="/signup"
               className="bg-deep-purple text-white px-8 py-4 rounded-tr-xl rounded-bl-xl hover:bg-purple-800 transition-all transform hover:scale-105 font-medium text-lg inline-block duration-300 font-inter md:mr-10 mx-2"
@@ -44,9 +46,9 @@ const Landing: React.FC = () => {
             >
               Sign In
             </Link>
-          </div>
+          </div>)}
         </motion.div>
-        <img src={homeImg} alt="habits" className="md:w-[80%] lg:w-[410px] lg:pl-10 mx-auto lg:mx-0 mt-10 lg:mt-0" loading="lazy"/>
+        <img src={homeImg} alt="habits" className="md:w-[80%] lg:w-[410px] lg:pl-10 mx-auto lg:mx-0 mt-10 lg:mt-0" loading="lazy" />
       </section>
 
       <Features />

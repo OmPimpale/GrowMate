@@ -5,9 +5,9 @@ import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { useHabits } from '../contexts/HabitContext';
-import toast, { Toaster } from 'react-hot-toast';
-import DashboardFooter from './DashboardFooter';
+import toast from 'react-hot-toast';
 import userImg from "../images/user.jpg"
+import Footer from './Footer';
 
 const Settings: React.FC = () => {
   const { user, updateUser } = useAuth();
@@ -15,7 +15,7 @@ const Settings: React.FC = () => {
   const { habits, habitLogs } = useHabits();
   const [isEditing, setIsEditing] = useState(false);
   const [name, setName] = useState(user?.name || '');
-  // Removed image and imageFile states
+  const [showConfirm, setShowConfirm] = useState(false);
 
   // Update state when user data changes (e.g., after updateUser)
   useEffect(() => {
@@ -41,7 +41,6 @@ const Settings: React.FC = () => {
       // Only call updateUser if there are changes to save
       if (Object.keys(userDataToUpdate).length > 0) {
         await updateUser(userDataToUpdate); // updateUser now only expects name
-        console.log('User updated successfully');
         toast.success('User updated successfully!');
         setIsEditing(false);
       } else {
@@ -73,11 +72,10 @@ const Settings: React.FC = () => {
   };
 
   const clearAllData = () => {
-    if (window.confirm('Are you sure you want to clear all your data? This action cannot be undone.')) {
-      localStorage.removeItem('habits');
-      localStorage.removeItem('habitLogs');
-      window.location.reload();
-    }
+    localStorage.removeItem('habits');
+    localStorage.removeItem('habitLogs');
+    toast.success("All data cleared!");
+    window.location.reload();
   };
 
   return (
@@ -115,7 +113,7 @@ const Settings: React.FC = () => {
                       <SquarePen size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
                     )}
                 </button>
-                 <img className="rounded-full w-16 mr-4" src={userImg} alt="user" loading="lazy" />
+                <img className="rounded-full w-16 mr-4" src={userImg} alt="user" loading="lazy" />
                 <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
                   User Profile
                 </h2>
@@ -229,7 +227,7 @@ const Settings: React.FC = () => {
                     Export
                   </button>
                 </div>
-                <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900 rounded-tr-2xl rounded-bl-2xl">
+                {/* <div className="flex items-center justify-between p-4 bg-red-50 dark:bg-red-900 rounded-tr-2xl rounded-bl-2xl">
                   <div>
                     <h3 className="font-medium text-red-800 dark:text-red-200">
                       Clear All Data
@@ -239,13 +237,13 @@ const Settings: React.FC = () => {
                     </p>
                   </div>
                   <button
-                    onClick={clearAllData}
+                    onClick={() => setShowConfirm(true)}
                     className="flex items-center px-4 py-2 bg-red-500 text-white rounded-tr-lg rounded-bl-lg hover:bg-red-600 transition-colors text-inter"
                   >
                     <Trash2 className="w-4 h-4 mr-2" />
                     Clear Data
                   </button>
-                </div>
+                </div> */}
               </div>
             </motion.div>
 
@@ -288,11 +286,43 @@ const Settings: React.FC = () => {
             </motion.div>
           </div>
         </div>
-        <>
-          <Toaster position="top-right" />
-        </>
-      </Layout>
-      <DashboardFooter />
+        {/* Confirmation Modal */}
+        {showConfirm && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 max-w-sm w-full"
+            >
+              <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
+                Confirm Clear Data
+              </h3>
+              <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
+                Are you sure you want to clear all your data? <br />
+                <span className="text-red-500 font-medium">This action cannot be undone.</span>
+              </p>
+              <div className="flex justify-end gap-3">
+                <button
+                  onClick={() => setShowConfirm(false)}
+                  className="px-4 py-2 bg-gray-200 dark:bg-gray-600 text-gray-800 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500"
+                >
+                  Cancel
+                </button>
+                <button
+                  onClick={() => {
+                    clearAllData();
+                    setShowConfirm(false);
+                  }}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                >
+                  Yes, Clear
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </Layout >
+      <Footer />
     </>
   );
 };
