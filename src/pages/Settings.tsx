@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Trash2, Download, Shield, SquarePen, X } from 'lucide-react'; // Removed Camera
+import { Moon, Sun, Download, Shield, SquarePen, X } from 'lucide-react'; // Removed Camera
 import Layout from '../components/Layout';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
