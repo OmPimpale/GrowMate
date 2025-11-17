@@ -13,7 +13,7 @@ export const authAPI = {
 
   signup: async (name: string, email: string, password: string) => {
     try {
-      const response = await api.post("/auth/signup", {
+      const response = await api.post(`/auth/signup`, {
         name,
         email,
         password,
@@ -36,7 +36,7 @@ export const authAPI = {
   // Modified updateUser to accept and send JSON with name
   updateUser: async (userData: { name?: string }) => {
     try {
-      const response = await api.put("/user/me", userData); // Send JSON data
+      const response = await api.put("/user/me", userData);
       return response.data;
     } catch (error) {
       return error;

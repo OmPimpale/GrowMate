@@ -81,7 +81,7 @@ const Settings: React.FC = () => {
   return (
     <>
       <Layout>
-        <div className="p-5">
+        <div className="p-5 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -95,7 +95,7 @@ const Settings: React.FC = () => {
             </p>
           </motion.div>
 
-          <div className="max-w-4xl space-y-8">
+          <div className="space-y-8">
             {/* Profile Section */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -105,15 +105,24 @@ const Settings: React.FC = () => {
             >
               <div className="relative flex items-center mb-6">
                 <button onClick={() => setIsEditing(!isEditing)}>
-                  {isEditing ?
-                    (
-                      <X size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
-                    ) :
-                    (
-                      <SquarePen size={38} className='absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300' />
-                    )}
+                  {isEditing ? (
+                    <X
+                      size={38}
+                      className="absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300"
+                    />
+                  ) : (
+                    <SquarePen
+                      size={38}
+                      className="absolute right-3 top-3 text-deep-purple dark:text-purple-400 p-2 rounded-full hover:bg-purple-200 dark:hover:bg-gray-200 duration-300"
+                    />
+                  )}
                 </button>
-                <img className="rounded-full w-16 mr-4" src={userImg} alt="user" loading="lazy" />
+                <img
+                  className="rounded-full w-16 mr-4"
+                  src={userImg}
+                  alt="user"
+                  loading="lazy"
+                />
                 <h2 className="text-2xl font-semibold text-gray-800 dark:text-white">
                   User Profile
                 </h2>
@@ -137,12 +146,12 @@ const Settings: React.FC = () => {
                   </label>
                   <input
                     type="email"
-                    value={user?.email || ''}
+                    value={user?.email || ""}
                     disabled
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-tr-xl rounded-bl-xl bg-gray-50 dark:bg-gray-700 text-gray-800 dark:text-white"
                   />
                 </div>
-                <div className='text-center'>
+                <div className="text-end">
                   {isEditing && (
                     <button
                       onClick={handleSave}
@@ -185,10 +194,14 @@ const Settings: React.FC = () => {
                 </div>
                 <button
                   onClick={toggleDarkMode}
-                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${darkMode ? 'bg-purple-600' : 'bg-gray-200'}`}
+                  className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                    darkMode ? "bg-purple-600" : "bg-gray-200"
+                  }`}
                 >
                   <span
-                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${darkMode ? 'translate-x-6' : 'translate-x-1'}`}
+                    className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                      darkMode ? "translate-x-6" : "translate-x-1"
+                    }`}
                   />
                 </button>
               </div>
@@ -268,7 +281,7 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <p className="text-3xl font-bold text-emerald-600 dark:text-emerald-400 text-inter">
-                    {habitLogs.filter(log => log.completed).length}
+                    {habitLogs.filter((log) => log.completed).length}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                     Completed Sessions
@@ -276,7 +289,7 @@ const Settings: React.FC = () => {
                 </div>
                 <div className="text-center">
                   <p className="text-3xl font-bold text-blue-600 dark:text-blue-400 text-inter">
-                    {new Set(habitLogs.map(log => log.date)).size}
+                    {new Set(habitLogs.map((log) => log.date)).size}
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 text-inter">
                     Active Days
@@ -299,7 +312,9 @@ const Settings: React.FC = () => {
               </h3>
               <p className="text-sm text-gray-600 dark:text-gray-300 mb-6">
                 Are you sure you want to clear all your data? <br />
-                <span className="text-red-500 font-medium">This action cannot be undone.</span>
+                <span className="text-red-500 font-medium">
+                  This action cannot be undone.
+                </span>
               </p>
               <div className="flex justify-end gap-3">
                 <button
@@ -321,8 +336,8 @@ const Settings: React.FC = () => {
             </motion.div>
           </div>
         )}
-      </Layout >
-      <Footer />
+      </Layout>
+      {/* <Footer /> */}
     </>
   );
 };

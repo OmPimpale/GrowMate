@@ -68,13 +68,13 @@ const LayoutNav = () => {
             <motion.header
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="mx-auto p-6 py-5 flex justify-between lg:justify-center items-center bg-white/60 backdrop-blur-xl fixed top-0 left-0 right-0 w-full z-10 border-b custom-colors dark:bg-gray-900/80 dark:border-gray-700"
+                // className="mx-auto p-6 py-5 flex justify-between lg:justify-center items-center bg-white/60 backdrop-blur-xl fixed top-0 left-0 right-0 w-full z-10 border-b custom-colors dark:bg-gray-900/80 dark:border-gray-700"
             >
-                <Link to="/" className="flex items-center text-3xl font-bold font-poppins text-deep-purple dark:text-purple-400"
+                {/* <Link to="/" className="flex items-center text-3xl font-bold font-poppins text-deep-purple dark:text-purple-400"
                 >
                     GrowMate
                     <Shrub className="ml-[2px] text-green-500 rotate-[15deg]" size={34} />
-                </Link>
+                </Link> */}
 
                 {!isDesktop && (
                     <motion.button

@@ -32,18 +32,19 @@ public class HabitLogController {
     public ResponseEntity<List<HabitLogResponse>> getAllHabitLogs(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         List<HabitLog> habitLogs = habitLogRepository.findByUserId(userPrincipal.getId());
-        
+
         List<HabitLogResponse> habitLogResponses = habitLogs.stream()
                 .map(HabitLogResponse::new)
                 .collect(Collectors.toList());
-        
+
         return ResponseEntity.ok(habitLogResponses);
     }
 
     @GetMapping("/habit/{habitId}")
-    public ResponseEntity<List<HabitLogResponse>> getHabitLogs(@PathVariable Long habitId, Authentication authentication) {
+    public ResponseEntity<List<HabitLogResponse>> getHabitLogs(@PathVariable Long habitId,
+            Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         // Verify habit belongs to user
         Optional<Habit> habit = habitRepository.findByIdAndUserId(habitId, userPrincipal.getId());
         if (habit.isEmpty()) {
@@ -52,22 +53,25 @@ public class HabitLogController {
 
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(365); // Last year
-        
-        List<HabitLog> habitLogs = habitLogRepository.findByHabitIdAndDateBetweenOrderByDateDesc(habitId, startDate, endDate);
-        
+
+        List<HabitLog> habitLogs = habitLogRepository.findByHabitIdAndDateBetweenOrderByDateDesc(habitId, startDate,
+                endDate);
+
         List<HabitLogResponse> habitLogResponses = habitLogs.stream()
                 .map(HabitLogResponse::new)
                 .collect(Collectors.toList());
-        
+
         return ResponseEntity.ok(habitLogResponses);
     }
 
     @PostMapping("/toggle")
-    public ResponseEntity<?> toggleHabitLog(@Valid @RequestBody HabitLogRequest habitLogRequest, Authentication authentication) {
+    public ResponseEntity<?> toggleHabitLog(@Valid @RequestBody HabitLogRequest habitLogRequest,
+            Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         // Verify habit belongs to user
-        Optional<Habit> habitOpt = habitRepository.findByIdAndUserId(habitLogRequest.getHabitId(), userPrincipal.getId());
+        Optional<Habit> habitOpt = habitRepository.findByIdAndUserId(habitLogRequest.getHabitId(),
+                userPrincipal.getId());
         if (habitOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -77,7 +81,7 @@ public class HabitLogController {
 
         // Find existing log or create new one
         Optional<HabitLog> existingLog = habitLogRepository.findByHabitIdAndDate(habit.getId(), date);
-        
+
         HabitLog habitLog;
         if (existingLog.isPresent()) {
             habitLog = existingLog.get();
@@ -94,9 +98,10 @@ public class HabitLogController {
     }
 
     @GetMapping("/check")
-    public ResponseEntity<?> checkHabitCompletion(@RequestParam Long habitId, @RequestParam String date, Authentication authentication) {
+    public ResponseEntity<?> checkHabitCompletion(@RequestParam Long habitId, @RequestParam String date,
+            Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         // Verify habit belongs to user
         Optional<Habit> habit = habitRepository.findByIdAndUserId(habitId, userPrincipal.getId());
         if (habit.isEmpty()) {
@@ -105,10 +110,10 @@ public class HabitLogController {
 
         LocalDate logDate = LocalDate.parse(date);
         Optional<HabitLog> habitLog = habitLogRepository.findByHabitIdAndDate(habitId, logDate);
-        
+
         Map<String, Boolean> response = new HashMap<>();
         response.put("completed", habitLog.map(HabitLog::getCompleted).orElse(false));
-        
+
         return ResponseEntity.ok(response);
     }
 }

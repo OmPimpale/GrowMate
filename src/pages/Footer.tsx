@@ -63,11 +63,11 @@ const Footer = () => {
                         </div>
 
                         <div className="inline-block mx-auto">
-                            <h3 className="text-xl font-bold text-dark-slate dark:text-purple-400 mb-4 font-poppins">Social Links</h3>
+                            <h3 className="text-xl font-bold text-dark-slate mb-4 font-poppins">Social Links</h3>
                             <ul className="flex justify-between items-center space-x-3">
-                                <li><Link to="https://www.linkedin.com/in/om-pimpale-83a524279" target="_blank" className="text-deep-purple dark:text-white transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal dark:hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><Linkedin size={24} /></Link></li>
-                                <li><Link to="https://github.com/OmPimpale" target="_blank" className="text-deep-purple dark:text-white transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal dark:hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><Github size={24} /></Link></li>
-                                <li><Link to="https://ompimpale-portfolio.netlify.app/" target="_blank" className="text-deep-purple dark:text-white transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal dark:hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><GraduationCap size={24} /></Link></li>
+                                <li><Link to="https://www.linkedin.com/in/om-pimpale-83a524279" target="_blank" className="text-deep-purple transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><Linkedin size={24} /></Link></li>
+                                <li><Link to="https://github.com/OmPimpale" target="_blank" className="text-deep-purple transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><Github size={24} /></Link></li>
+                                <li><Link to="https://ompimpale-portfolio.netlify.app/" target="_blank" className="text-deep-purple transition-colors font-medium inline-block border-deep-purple font-inter hover:text-teal duration-300 p-2 hover:bg-gray-200 rounded-full"><GraduationCap size={24} /></Link></li>
                             </ul>
                         </div>
                     </div>

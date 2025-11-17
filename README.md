@@ -29,7 +29,6 @@ A full-stack habit tracking application built with React TypeScript frontend and
 - Maven for dependency management
 
 ## Prerequisites
-
 - Node.js 18+ and npm
 - Java 17+
 - Maven 3.6+
@@ -38,12 +37,10 @@ A full-stack habit tracking application built with React TypeScript frontend and
 ## Setup Instructions
 
 ### Database Setup
-
 1. Install MySQL and create a database:
 ```sql
 CREATE DATABASE growmate_db;
 ```
-
 2. Update database credentials in `backend/src/main/resources/application.properties`:
 ```properties
 spring.datasource.username=your_username
@@ -51,7 +48,6 @@ spring.datasource.password=your_password
 ```
 
 ### Backend Setup
-
 1. Navigate to the backend directory:
 ```bash
 cd backend
@@ -66,7 +62,6 @@ mvn spring-boot:run
 The backend will start on `http://localhost:8080`
 
 ### Frontend Setup
-
 1. Install dependencies:
 ```bash
 npm install
@@ -80,7 +75,6 @@ npm run dev
 The frontend will start on `http://localhost:5173`
 
 ### Run Full Stack
-
 To run both frontend and backend simultaneously:
 ```bash
 npm run dev:full

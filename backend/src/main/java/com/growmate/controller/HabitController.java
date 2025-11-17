@@ -30,18 +30,18 @@ public class HabitController {
     public ResponseEntity<List<HabitResponse>> getAllHabits(Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
         List<Habit> habits = habitRepository.findByUserIdOrderByCreatedAtDesc(userPrincipal.getId());
-        
+
         List<HabitResponse> habitResponses = habits.stream()
                 .map(HabitResponse::new)
                 .collect(Collectors.toList());
-        
+
         return ResponseEntity.ok(habitResponses);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getHabitById(@PathVariable Long id, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         return habitRepository.findByIdAndUserId(id, userPrincipal.getId())
                 .map(habit -> ResponseEntity.ok(new HabitResponse(habit)))
                 .orElse(ResponseEntity.notFound().build());
@@ -50,7 +50,7 @@ public class HabitController {
     @PostMapping
     public ResponseEntity<?> createHabit(@Valid @RequestBody HabitRequest habitRequest, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         User user = userRepository.findById(userPrincipal.getId())
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
@@ -66,16 +66,17 @@ public class HabitController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateHabit(@PathVariable Long id, @Valid @RequestBody HabitRequest habitRequest, Authentication authentication) {
+    public ResponseEntity<?> updateHabit(@PathVariable Long id, @Valid @RequestBody HabitRequest habitRequest,
+            Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         return habitRepository.findByIdAndUserId(id, userPrincipal.getId())
                 .map(habit -> {
                     habit.setTitle(habitRequest.getTitle());
                     habit.setDescription(habitRequest.getDescription());
                     habit.setFrequency(habitRequest.getFrequency());
                     habit.setColor(habitRequest.getColor());
-                    
+
                     Habit updatedHabit = habitRepository.save(habit);
                     return ResponseEntity.ok(new HabitResponse(updatedHabit));
                 })
@@ -85,7 +86,7 @@ public class HabitController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteHabit(@PathVariable Long id, Authentication authentication) {
         UserPrincipal userPrincipal = (UserPrincipal) authentication.getPrincipal();
-        
+
         return habitRepository.findByIdAndUserId(id, userPrincipal.getId())
                 .map(habit -> {
                     habitRepository.delete(habit);

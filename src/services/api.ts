@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_BASE_URL = import.meta.env.BASE_URL;
+const API_BASE_URL = "http://localhost:8080/api";
 
 // Create axios instance
 const api = axios.create({
@@ -11,17 +11,35 @@ const api = axios.create({
 });
 
 // Add token to requests
+// api.interceptors.request.use(
+//   (config) => {
+//     const token = localStorage.getItem("token");
+//     if (token) {
+//       config.headers.Authorization = `Bearer ${token}`;
+//     }
+//     return config;
+//   },
+//   (error) => {
+//     return Promise.reject(error);
+//   }
+// );
+
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
-    if (token) {
+
+    // Skip Authorization for public endpoints
+    if (
+      token &&
+      !config.url?.includes("/auth/login") &&
+      !config.url?.includes("/auth/signup")
+    ) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
 // Handle token expiration

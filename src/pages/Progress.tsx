@@ -86,7 +86,7 @@ const Progress: React.FC = () => {
   return (
     <>
       <Layout>
-        <div className="p-5">
+        <div className="p-5 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -342,7 +342,7 @@ const Progress: React.FC = () => {
           </motion.div>
         </div>
       </Layout>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

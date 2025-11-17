@@ -56,16 +56,16 @@ const Dashboard: React.FC = () => {
   return (
     <>
       <Layout>
-        <div className="p-5">
+        <div className="p-5 max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="my-10 text-center"
+            className="my-10"
           >
             <h1 className="text-4xl font-bold font-poppins text-dark-slate dark:text-white mb-2">
               Good {new Date().getHours() < 12 ? 'Morning' : new Date().getHours() < 17 ? 'Afternoon' : 'Evening'}, <span className='text-deep-purple'>{user?.name}</span> !
             </h1>
-            <p className="text-lg text-gray-600 opacity-90 text-inter">
+            <p className="text-lg text-gray-600 dark:text-gray-300 text-inter opacity-90">
               {todaysMessage}
             </p>
           </motion.div>
@@ -235,7 +235,7 @@ const Dashboard: React.FC = () => {
           </motion.div>
         </div>
       </Layout>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

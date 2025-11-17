@@ -34,7 +34,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
           const userData = await authAPI.getCurrentUser();
           const updatedUser = {
-            id: userData.id.toString(),
+            id: userData.id,
             name: userData.name,
             email: userData.email,
           };
@@ -57,7 +57,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       const response = await authAPI.login(email, password);
 
       const userData = {
-        id: response.id.toString(),
+        id: response.id,
         name: response.name,
         email: response.email,
         // Removed image from login response handling
@@ -75,15 +75,23 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   const signup = async (name: string, email: string, password: string): Promise<boolean> => {
+    console.log('password: ', password);
+    console.log('email: ', email);
+    console.log('name: ', name);
     try {
       const response = await authAPI.signup(name, email, password);
+      console.log('response: ', response);
+      console.log('password: ', password);
+      console.log('email: ', email);
+      console.log('name: ', name);
 
       const userData = {
-        id: response.id.toString(),
+        id: response.id,
         name: response.name,
         email: response.email,
         // Removed image from signup response handling
       };
+      console.log('userData: ', userData);
 
       setUser(userData);
       localStorage.setItem('token', response.token);

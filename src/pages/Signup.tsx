@@ -80,6 +80,10 @@ const Signup: React.FC = () => {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         const success = await signup(values.name, values.email, values.password);
+        console.log('success: ', success);
+        console.log('values.password: ', values.password);
+        console.log('values.email: ', values.email);
+        console.log('values.name: ', values.name);
         if (success) {
           toast.success('Account created successfully! Please log in.');
           navigate('/login');

@@ -32,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
     <>
       <LayoutNav />
-      <div className={`&{darkMode? '':'bg-gradient-to-tl from-soft-lavender to-white'} flex mt-[76.8px] pb-8`}>
+      <div className={`&{darkMode? '':'bg-gradient-to-tl from-soft-lavender to-white'} flex pb-8`}>
         {/* Sidebar */}
         <motion.div
           initial={{ x: -300 }}
